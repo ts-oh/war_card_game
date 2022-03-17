@@ -13,42 +13,42 @@ const playerScoreOutput = document.querySelector("#player-score");
 
 newDeckBtn.addEventListener("click", drawNewDeck);
 
-function drawNewDeck() {
-  fetch("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
-    .then((res) => res.json())
-    .then((data) => {
-      deckId = data.deck_id;
-      outputArea.textContent = `Cards remaining: ${data.remaining}`;
-      clearOutputs();
-      displayScore();
-      drawCardBtn.addEventListener("click", drawNewCards);
-    });
+async function drawNewDeck() {
+  const response = await fetch(
+    "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1"
+  );
+  const data = await response.json();
+  deckId = data.deck_id;
+  outputArea.textContent = `Cards remaining: ${data.remaining}`;
+  clearOutputs();
+  displayScore();
+  drawCardBtn.addEventListener("click", drawNewCards);
 }
 
-function drawNewCards() {
-  fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=2`)
-    .then((res) => res.json())
-    .then((data) => {
-      outputArea.textContent = "";
-      outputArea.textContent = `Cards remaining: ${data.remaining}`;
+async function drawNewCards() {
+  const response = await fetch(
+    `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=2`
+  );
+  const data = await response.json();
+  outputArea.textContent = "";
+  outputArea.textContent = `Cards remaining: ${data.remaining}`;
 
-      if (data.remaining === 0) {
-        drawCardBtn.removeEventListener("click", drawNewCards);
-      }
+  if (data.remaining === 0) {
+    drawCardBtn.removeEventListener("click", drawNewCards);
+  }
 
-      cardsContainer.childNodes[1].innerHTML = `
+  cardsContainer.childNodes[1].innerHTML = `
                 <img src=${data.cards[0].image} class="card" />
             `;
-      cardsContainer.childNodes[3].innerHTML = `
+  cardsContainer.childNodes[3].innerHTML = `
             <img src=${data.cards[1].image} class="card" />
             `;
-      const roundWinnerOutput = compareCards(
-        data.cards[0].value,
-        data.cards[1].value
-      );
-      resultOutput.textContent = roundWinnerOutput;
-      remainingCards(data.remaining);
-    });
+  const roundWinnerOutput = compareCards(
+    data.cards[0].value,
+    data.cards[1].value
+  );
+  resultOutput.textContent = roundWinnerOutput;
+  remainingCards(data.remaining);
 }
 
 function remainingCards(num) {
