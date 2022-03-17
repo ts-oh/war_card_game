@@ -64,13 +64,25 @@ img.card {
 }
 
 #result {
-  font-size: 32px;
+  font-size: 16px;
   color: white;
   margin: 8px;
 }
 
 #remain {
-  font-size: 32px;
+  font-size: 16px;
+  color: white;
+  margin: 8px;
+}
+
+#computer-score {
+  font-size: 16px;
+  color: white;
+  margin: 8px;
+}
+
+#player-score {
+  font-size: 16px;
   color: white;
   margin: 8px;
 }
