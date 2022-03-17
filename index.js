@@ -2,40 +2,56 @@ let deckId;
 const cardsContainer = document.querySelector("#cards");
 const newDeckBtn = document.querySelector("#new-deck");
 const drawCardBtn = document.querySelector("#draw-cards");
-const outputArea = document.querySelector("#output-msg");
+const outputArea = document.querySelector("#deckdraw");
+const resultOutput = document.querySelector("#result");
+const remainOutput = document.querySelector("#remain");
 
-function clearOutput() {
-  outputArea.textContent = "";
-  outputArea.style.display = "none";
-}
+newDeckBtn.addEventListener("click", drawNewDeck);
+//drawCardBtn.addEventListener("click", drawNewCards);
 
-newDeckBtn.addEventListener("click", () => {
+function drawNewDeck() {
   fetch("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
       deckId = data.deck_id;
-      outputArea.style.display = "flex";
-      outputArea.textContent = "New Deck Created!";
-      setTimeout(clearOutput, 2500);
+      outputArea.textContent = `Cards remaining: ${data.remaining}`;
+      remainOutput.textContent = "";
+      resultOutput.textContent = "";
+      drawCardBtn.addEventListener("click", drawNewCards);
     });
-});
+}
 
-drawCardBtn.addEventListener("click", () => {
+function drawNewCards() {
   fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=2`)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data.cards);
+      outputArea.textContent = "";
+      console.log(data.cards[0], data.cards[1]);
+      outputArea.textContent = `Cards remaining: ${data.remaining}`;
+      // remainingCards(data.remaining);
+      if (data.remaining === 0) {
+        drawCardBtn.removeEventListener("click", drawNewCards);
+      }
       cardsContainer.childNodes[1].innerHTML = `
                 <img src=${data.cards[0].image} class="card" />
             `;
       cardsContainer.childNodes[3].innerHTML = `
             <img src=${data.cards[1].image} class="card" />
             `;
-      console.log(cardsContainer);
-      compareCards(data.cards[0].value, data.cards[1].value);
+      const winnerOutput = compareCards(
+        data.cards[0].value,
+        data.cards[1].value
+      );
+      resultOutput.textContent = winnerOutput;
     });
-});
+}
+
+function remainingCards(num) {
+  if (num === 0) {
+    drawCardBtn.removeEventListener("click", drawNewCards);
+  }
+}
 
 const cardValues = {
   2: 2,
@@ -55,10 +71,10 @@ const cardValues = {
 
 function compareCards(card1, card2) {
   if (cardValues[card1] === cardValues[card2]) {
-    console.log("it's a tie");
+    return "WAR!";
   } else if (cardValues[card1] > cardValues[card2]) {
-    console.log(`card1 is higher card`);
+    return "Computer Wins!";
   } else if (cardValues[card2] > cardValues[card1]) {
-    console.log(`card 2 is higher card`);
+    return "Player Wins!";
   }
 }

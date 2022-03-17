@@ -40,7 +40,7 @@ div.card-slot {
   border: 2px solid black;
   border-radius: 5px;
   height: 160px;
-  padding: 16px;
+  padding: 8px;
   width: calc(160px * 5 / 7);
 }
 
@@ -53,8 +53,7 @@ img.card {
   height: 100%;
 }
 
-#output-msg {
-  display: none;
+#deckdraw {
   border: 2px solid black;
   border-radius: 5px;
   background-color: lightcoral;
@@ -62,4 +61,16 @@ img.card {
   font-size: 16px;
   font-weight: 900;
   padding: 16px;
+}
+
+#result {
+  font-size: 32px;
+  color: white;
+  margin: 8px;
+}
+
+#remain {
+  font-size: 32px;
+  color: white;
+  margin: 8px;
 }
