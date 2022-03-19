@@ -15,24 +15,29 @@ body {
 }
 
 button {
-  background-color: whitesmoke;
+  background-color: lightgreen;
   cursor: pointer;
   border: 2px solid black;
   border-radius: 8px;
 }
 
+button:hover {
+  background-color: lightseagreen;
+}
+
 button#new-deck {
+  font-weight: 900;
   align-self: center;
-  width: 150px;
-  padding: 15px;
+  width: 120px;
+  padding: 16px;
   margin-top: 32px;
 }
 
 button.draw {
-  font-size: 1.2em;
-  padding: 15px;
+  font-weight: 900;
+  padding: 16px;
   align-self: center;
-  width: 150px;
+  width: 120px;
   margin-bottom: 32px;
 }
 
@@ -54,18 +59,25 @@ img.card {
 }
 
 #deckdraw {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border: 2px solid black;
   border-radius: 5px;
-  background-color: lightcoral;
-  color: black;
+  width: 200px;
+  height: 24px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   font-size: 16px;
   font-weight: 900;
   padding: 16px;
 }
 
 #result {
-  font-size: 16px;
-  color: white;
+  height: 26px;
+  font-size: 24px;
+  color: yellow;
   margin: 8px;
 }
 
